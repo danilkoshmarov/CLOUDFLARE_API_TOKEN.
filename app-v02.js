@@ -153,7 +153,7 @@ function quickFill(){
  ["entryInflam","entryOil","entryIrritation","entryComfort"].forEach((id,i)=>byId(id).value=[e.inflam,e.oil,e.irritation??0,e.comfort??3][i]);
  zoneKeys.forEach(k=>{const el=byId("v2z_"+k);if(el)el.value=Number(e.zones?.[k]||0)});
  byId("v2Sleep").value=e.factors?.sleep??"";byId("v2Stress").value=e.factors?.stress??"";byId("v2Food").value=e.factors?.food??"";byId("v2Other").value=e.factors?.other??"";
- byId("v2Reaction").value=e.reactionLevel??"";byId("v2ReactionWhen").value=e.reactionWhen??"";byId("v2ReactionNote").value=e.reactionNote??"";
+ byId("v2Reaction").value=e.reactionLevel??"";byId("v2ReactionWhen").value=e.reactionWhen??"";byId("v2ReactionNote").value=e.reactionNote??"";document.querySelectorAll("[data-v2-product]").forEach(x=>x.checked=(e.usedProducts||[]).includes(x.value));
  updateZoneMap();alert("Значения перенесены. Проверь и измени то, что сегодня отличается.");
 }
 function attachJournal(){
@@ -175,7 +175,7 @@ function attachJournal(){
    entry.reactionWhen=byId("v2ReactionWhen").value;entry.reactionNote=byId("v2ReactionNote").value.trim();
    state.reactions.push({entryId:entry.id,date:entry.date,productIds:entry.usedProducts,level:entry.reactionLevel,when:entry.reactionWhen,note:entry.reactionNote});
    save();renderCalendar();renderUsedProducts();renderFactorInsights();
-   zoneKeys.forEach(k=>byId("v2z_"+k).value=0);byId("v2Sleep").value="";byId("v2Stress").value="";byId("v2Food").value="";byId("v2Other").value="";byId("v2Reaction").value="";byId("v2ReactionWhen").value="";byId("v2ReactionNote").value="";
+   zoneKeys.forEach(k=>byId("v2z_"+k).value=0);updateZoneMap();byId("v2Sleep").value="";byId("v2Stress").value="";byId("v2Food").value="";byId("v2Other").value="";byId("v2Reaction").value="";byId("v2ReactionWhen").value="";byId("v2ReactionNote").value="";
   };
  }
 }
