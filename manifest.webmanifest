@@ -1,0 +1,16 @@
+{
+  "id": "./",
+  "name": "PANACEA SKIN",
+  "short_name": "PANACEA SKIN",
+  "description": "Личный дневник наблюдения за состоянием кожи и уходом",
+  "lang": "ru",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1510",
+  "theme_color": "#101711",
+  "icons": [
+    {"src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}
+  ]
+}
