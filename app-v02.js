@@ -12,7 +12,7 @@ const ensureState=()=>{state.faceMap??={};state.factors??={};state.reactions??=[
 ensureState();
 const nav=document.querySelector('.tabs');
 if(nav&&!document.querySelector('[data-page="calendar"]')){
- const b=document.createElement("button");b.dataset.page="calendar";b.textContent="Календарь";nav.insertBefore(b,nav.querySelector('[data-page="data"]'));
+ const b=document.createElement("button");b.dataset.page="calendar";b.textContent="Календарь";nav.insertBefore(b,nav.querySelector('[data-page="data"]'));b.onclick=()=>{document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="calendar"));renderCalendar();renderCompare();renderFactorInsights()};
 }
 if(!byId("calendar")){
  const sec=document.createElement("section");sec.className="page";sec.id="calendar";
@@ -37,6 +37,7 @@ if(!byId("calendar")){
    </div>
   </div>
   <div class="v2-card"><div class="v2-section-title"><h2>Календарь состояния</h2><div class="v2-btnrow"><button id="v2PrevMonth" aria-label="Предыдущий месяц">‹</button><button id="v2NextMonth" aria-label="Следующий месяц">›</button></div></div><h3 id="v2MonthLabel"></h3><div class="v2-calendar" id="v2Calendar"></div><div class="v2-muted" style="margin-top:10px">Цвета показывают ориентировочную динамику по оценке воспалений: зелёный — ниже, жёлтый — средняя, красный — выше. Сравнение относительно твоих собственных записей.</div><div id="v2CalendarDetail" class="v2-tip" style="margin-top:12px">Выбери день, чтобы посмотреть запись.</div></div>
+  <div class="v2-card"><h2>Факторы и динамика</h2><p class="v2-muted">Сравнение средних оценок воспалений в твоих записях. Это наблюдаемые совпадения, не доказательство причины.</p><div id="v2FactorInsights" class="v2-shell"><div class="v2-empty">Добавь несколько записей с факторами.</div></div></div>
   <div class="v2-card"><h2>Сравнение фотографий</h2><p class="v2-muted">Выбери две даты с фотографиями. Для честного сравнения снимай лицо при одинаковом освещении, расстоянии и ракурсе.</p><div class="v2-grid"><div class="v2-field"><label>Первое фото</label><select id="v2PhotoA"></select></div><div class="v2-field"><label>Второе фото</label><select id="v2PhotoB"></select></div></div><div id="v2CompareArea" class="v2-empty">Добавь фотографии в дневник, чтобы сравнить их.</div><div id="v2SliderControl" class="v2-field hidden"><label>Наложение фотографий</label><input id="v2CompareSlider" type="range" min="0" max="100" value="50"></div></div>
   <div class="v2-card"><h2>Установка приложения</h2><div class="v2-install"><p class="v2-muted">Установи PANACEA SKIN на главный экран. Данные останутся в локальном хранилище этого браузера.</p><button class="primary" id="v2InstallBtn">Установить приложение</button></div><p id="v2InstallHelp" class="v2-muted" style="margin-top:10px">На iPhone: открой сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».</p><div class="v2-tip" style="margin-top:10px">Установка не заменяет резервную копию. При очистке данных Safari или удалении сайта локальная история может пропасть.</div></div>
  </div>`;
@@ -110,12 +111,12 @@ async function renderCompare(){
 async function updateCompare(){
  compareUrls.forEach(URL.revokeObjectURL);compareUrls=[];
  const area=byId("v2CompareArea"),a=byId("v2PhotoA")?.value,b=byId("v2PhotoB")?.value;
- if(!a||!b){area.innerHTML='<div class="v2-empty">Нужно минимум две фотографии в разных или одинаковых датах.</div>';byId("v2SliderControl").classList.add("hidden");return}
+ if(!a||!b||a===b){area.innerHTML='<div class="v2-empty">Нужно минимум две разные фотографии в дневнике.</div>';byId("v2SliderControl").classList.add("hidden");return}
  try{
   const [ea,eb]=[state.entries.find(x=>x.id===a),state.entries.find(x=>x.id===b)];
   const [ba,bb]=await Promise.all([photoGet(a),photoGet(b)]);if(!ba||!bb)throw Error("Фото не найдено в локальной базе");
   const ua=URL.createObjectURL(ba),ub=URL.createObjectURL(bb);compareUrls.push(ua,ub);
-  area.innerHTML='<div class="v2-photo-compare"><figure><img src="'+ua+'"><figcaption>'+dateLabel(ea.date)+' · '+ea.inflam+'/5 воспалений</figcaption></figure><figure><img src="'+ub+'"><figcaption>'+dateLabel(eb.date)+' · '+eb.inflam+'/5 воспалений</figcaption></figure></div><p class="v2-muted">Сравнивай визуально при одинаковом освещении; автоматическая оценка по фото не выполняется.</p>';
+  area.innerHTML='<div class="v2-slider-wrap" id="v2SliderWrap"><img src="'+ub+'" alt="Позднее фото"><div class="v2-overlay" id="v2Overlay" style="width:50%"><img src="'+ua+'" alt="Раннее фото"></div></div><div class="v2-photo-compare"><figure><figcaption>Раньше: '+dateLabel(ea.date)+' · '+ea.inflam+'/5 воспалений</figcaption></figure><figure><figcaption>Позже: '+dateLabel(eb.date)+' · '+eb.inflam+'/5 воспалений</figcaption></figure></div><p class="v2-muted">Ползунок показывает более раннее фото поверх позднего. Автоматическая оценка по фото не выполняется.</p>';
   byId("v2SliderControl").classList.remove("hidden");
  }catch(err){area.textContent="Не удалось загрузить фотографии: "+err.message;byId("v2SliderControl").classList.add("hidden")}
 }
@@ -171,7 +172,7 @@ function init(){
  byId("v2PrevMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
  byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;
- byId("v2CompareSlider").oninput=e=>{const img=byId("v2CompareArea").querySelectorAll("img");if(img.length===2){img[1].style.opacity=String(Number(e.target.value)/100)}};
+ byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
  attachJournal();renderCalendar();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
  save();
