@@ -120,6 +120,29 @@ async function updateCompare(){
   byId("v2SliderControl").classList.remove("hidden");
  }catch(err){area.textContent="Не удалось загрузить фотографии: "+err.message;byId("v2SliderControl").classList.add("hidden")}
 }
+function renderFactorInsights(){
+ const el=byId("v2FactorInsights");if(!el)return;
+ const entries=state.entries||[];
+ const groups=[
+  {name:"Сон менее 6 часов",rows:entries.filter(e=>e.factors?.sleep!==null&&e.factors?.sleep!==undefined&&e.factors?.sleep!==""&&Number(e.factors.sleep)<6)},
+  {name:"Сон 6–8 часов",rows:entries.filter(e=>e.factors?.sleep!==null&&e.factors?.sleep!==undefined&&e.factors?.sleep!==""&&Number(e.factors.sleep)>=6&&Number(e.factors.sleep)<=8)},
+  {name:"Сон более 8 часов",rows:entries.filter(e=>e.factors?.sleep!==null&&e.factors?.sleep!==undefined&&e.factors?.sleep!==""&&Number(e.factors.sleep)>8)},
+  {name:"Стресс 0–1",rows:entries.filter(e=>e.factors?.stress!==null&&e.factors?.stress!==undefined&&e.factors?.stress!==""&&Number(e.factors.stress)<=1)},
+  {name:"Стресс 2–4",rows:entries.filter(e=>e.factors?.stress!==null&&e.factors?.stress!==undefined&&e.factors.stress!==""&&Number(e.factors.stress)>=2)}
+ ];
+ const avg=rows=>rows.length?(rows.reduce((sum,e)=>sum+Number(e.inflam||0),0)/rows.length).toFixed(1):"—";
+ let html=groups.map(g=>'<div class="item"><div><b>'+g.name+'</b><p>Записей: '+g.rows.length+'</p></div><span class="pill">Среднее: '+avg(g.rows)+'</span></div>').join("");
+ if(state.products?.length){
+  html+='<h3 style="margin-top:14px">По используемым средствам</h3>';
+  html+=state.products.map(p=>{
+   const used=entries.filter(e=>(e.usedProducts||[]).includes(p.id));
+   const not=entries.filter(e=>!(e.usedProducts||[]).includes(p.id));
+   const enough=used.length>=3&&not.length>=3;
+   return '<div class="item"><div><b>'+safe(p.name)+'</b><p>С использованием: '+used.length+' · без отметки: '+not.length+'</p></div><span class="pill">'+(enough?(avg(used)+' / '+avg(not)):'Мало данных')+'</span></div>';
+  }).join("");
+ }
+ el.innerHTML=html||'<div class="v2-empty">Пока недостаточно данных для сравнения.</div>';
+}
 function renderUsedProducts(){
  const el=byId("v2UsedProducts");if(!el)return;
  const active=state.products.filter(p=>p.active!==false);
@@ -151,7 +174,7 @@ function attachJournal(){
    entry.reactionLevel=byId("v2Reaction").value===""?null:Number(byId("v2Reaction").value);
    entry.reactionWhen=byId("v2ReactionWhen").value;entry.reactionNote=byId("v2ReactionNote").value.trim();
    state.reactions.push({entryId:entry.id,date:entry.date,productIds:entry.usedProducts,level:entry.reactionLevel,when:entry.reactionWhen,note:entry.reactionNote});
-   save();renderCalendar();renderUsedProducts();renderCalendar();
+   save();renderCalendar();renderUsedProducts();renderFactorInsights();
    zoneKeys.forEach(k=>byId("v2z_"+k).value=0);byId("v2Sleep").value="";byId("v2Stress").value="";byId("v2Food").value="";byId("v2Other").value="";byId("v2Reaction").value="";byId("v2ReactionWhen").value="";byId("v2ReactionNote").value="";
   };
  }
@@ -173,7 +196,7 @@ function init(){
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
  byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;
  byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
- attachJournal();renderCalendar();setupPwa();
+ attachJournal();renderCalendar();renderFactorInsights();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
  save();
 }
