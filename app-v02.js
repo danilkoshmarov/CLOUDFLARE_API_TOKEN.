@@ -20,19 +20,52 @@ if(!byId("calendar")){
  <div class="v2-shell">
   <div class="v2-card"><div class="eyebrow">PANACEA SKIN · V0.2</div><h2 style="margin-top:7px">Карта лица и календарь</h2><p class="v2-muted">Отмечай количество активных воспалений по зонам. Это помогает отслеживать распределение, а не только общую оценку.</p>
    <div class="v2-face-wrap">
-    <svg class="v2-face" viewBox="0 0 240 300" role="img" aria-label="Схема лица с зонами">
-     <path d="M120 18 C65 18 48 66 55 132 C60 205 86 263 120 276 C154 263 180 205 185 132 C192 66 175 18 120 18Z" fill="none" stroke="var(--muted)" stroke-width="2"/>
-     <path d="M55 105 Q33 87 42 130 Q48 152 59 150 M185 105 Q207 87 198 130 Q192 152 181 150" fill="none" stroke="var(--muted)" stroke-width="2"/>
-     <path class="v2-zone" data-zone="forehead" d="M78 42 Q120 22 162 42 L166 96 Q120 108 74 96Z"/>
-     <path class="v2-zone" data-zone="leftCheek" d="M66 112 Q88 101 111 122 L108 174 Q83 185 64 156Z"/>
-     <path class="v2-zone" data-zone="rightCheek" d="M129 122 Q152 101 174 112 L176 156 Q157 185 132 174Z"/>
-     <path class="v2-zone" data-zone="nose" d="M111 104 Q120 99 129 104 L135 171 Q120 183 105 171Z"/>
-     <path class="v2-zone" data-zone="chin" d="M93 205 Q120 194 147 205 Q143 249 120 258 Q97 249 93 205Z"/>
-     <path class="v2-zone" data-zone="leftJaw" d="M62 168 Q79 185 107 183 L98 226 Q76 215 62 168Z"/>
-     <path class="v2-zone" data-zone="rightJaw" d="M178 168 Q161 185 133 183 L142 226 Q164 215 178 168Z"/>
-     <path d="M89 119 Q99 112 108 119 M132 119 Q141 112 151 119 M105 193 Q120 199 135 193" fill="none" stroke="var(--muted)" stroke-width="2" stroke-linecap="round"/>
-     <text class="v2-zone-label" x="120" y="69" text-anchor="middle">Лоб</text><text class="v2-zone-label" x="86" y="145" text-anchor="middle">Левая</text><text class="v2-zone-label" x="86" y="156" text-anchor="middle">щека</text><text class="v2-zone-label" x="154" y="145" text-anchor="middle">Правая</text><text class="v2-zone-label" x="154" y="156" text-anchor="middle">щека</text><text class="v2-zone-label" x="120" y="143" text-anchor="middle">Нос</text><text class="v2-zone-label" x="120" y="229" text-anchor="middle">Подбородок</text>
-    </svg>
+    <svg class="v2-face" viewBox="0 0 300 360" role="img" aria-label="Интерактивная карта лица с зонами кожи">
+ <defs>
+  <linearGradient id="skinBase" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6d9c4"/><stop offset=".48" stop-color="#dcae91"/><stop offset="1" stop-color="#b77f69"/></linearGradient>
+  <radialGradient id="skinLight" cx=".38" cy=".28" r=".72"><stop offset="0" stop-color="#fff0df" stop-opacity=".8"/><stop offset=".58" stop-color="#f0c9ad" stop-opacity=".12"/><stop offset="1" stop-color="#73483f" stop-opacity=".25"/></radialGradient>
+  <linearGradient id="hair" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#30251f"/><stop offset=".48" stop-color="#594033"/><stop offset="1" stop-color="#211b19"/></linearGradient>
+  <linearGradient id="neck" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#a86e5b"/><stop offset=".5" stop-color="#d7a58b"/><stop offset="1" stop-color="#9c6253"/></linearGradient>
+  <filter id="faceShadow" x="-30%" y="-20%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
+  <filter id="zoneGlow" x="-80%" y="-80%" width="260%" height="260%"><feGaussianBlur stdDeviation="5"/></filter>
+  <clipPath id="faceClip"><path d="M150 57 C91 57 66 105 72 176 C78 252 111 301 150 309 C189 301 222 252 228 176 C234 105 209 57 150 57Z"/></clipPath>
+ </defs>
+ <ellipse cx="150" cy="326" rx="75" ry="13" fill="#000" opacity=".15" filter="url(#faceShadow)"/>
+ <path d="M113 271 L110 329 Q150 350 190 329 L187 271Z" fill="url(#neck)"/>
+ <path d="M65 354 Q74 316 119 310 L150 329 L181 310 Q226 316 235 354Z" fill="#29352f"/>
+ <path d="M61 151 Q42 35 150 26 Q258 35 239 151 L224 211 Q212 116 187 92 Q151 119 83 100 Q74 151 76 211Z" fill="url(#hair)"/>
+ <path d="M72 154 Q55 145 54 174 Q56 207 78 211 M228 154 Q245 145 246 174 Q244 207 222 211" fill="url(#skinBase)" stroke="#9d6c5c" stroke-width="2"/>
+ <path d="M150 57 C91 57 66 105 72 176 C78 252 111 301 150 309 C189 301 222 252 228 176 C234 105 209 57 150 57Z" fill="url(#skinBase)" stroke="#9c6b5c" stroke-width="1.5"/>
+ <path d="M150 57 C91 57 66 105 72 176 C78 252 111 301 150 309 C189 301 222 252 228 176 C234 105 209 57 150 57Z" fill="url(#skinLight)"/>
+ <g clip-path="url(#faceClip)">
+  <path d="M74 90 Q150 117 226 90" fill="none" stroke="#fff1df" stroke-opacity=".24" stroke-width="16"/>
+  <path d="M83 181 Q110 192 131 182 M169 182 Q190 192 217 181" fill="none" stroke="#8c5c50" stroke-opacity=".12" stroke-width="10"/>
+  <path d="M83 231 Q103 264 133 267 M217 231 Q197 264 167 267" fill="none" stroke="#8c5c50" stroke-opacity=".12" stroke-width="8"/>
+ </g>
+ <!-- Interactive skin zones -->
+ <g class="v2-face-zones">
+  <path class="v2-zone" data-zone="forehead" d="M91 83 Q150 55 209 83 L211 139 Q150 151 89 139Z"/>
+  <path class="v2-zone" data-zone="leftCheek" d="M78 157 Q102 143 137 157 L132 224 Q105 237 80 207Z"/>
+  <path class="v2-zone" data-zone="rightCheek" d="M163 157 Q198 143 222 157 L220 207 Q195 237 168 224Z"/>
+  <path class="v2-zone" data-zone="nose" d="M137 143 Q150 136 163 143 L170 222 Q150 237 130 222Z"/>
+  <path class="v2-zone" data-zone="chin" d="M111 251 Q150 237 189 251 Q181 296 150 301 Q119 296 111 251Z"/>
+  <path class="v2-zone" data-zone="leftJaw" d="M78 211 Q101 232 132 226 L126 273 Q97 268 78 211Z"/>
+  <path class="v2-zone" data-zone="rightJaw" d="M222 211 Q199 232 168 226 L174 273 Q203 268 222 211Z"/>
+ </g>
+ <!-- Facial details -->
+ <g class="v2-face-details" fill="none" stroke="#69483f" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M91 159 Q111 146 132 158" stroke-width="4"/><path d="M168 158 Q189 146 209 159" stroke-width="4"/>
+  <path d="M94 177 Q112 164 130 177 Q113 190 94 177Z" fill="#fff0df" stroke-width="1.4"/><path d="M170 177 Q188 164 206 177 Q188 190 170 177Z" fill="#fff0df" stroke-width="1.4"/>
+  <ellipse cx="112" cy="177" rx="5" ry="7" fill="#594238" stroke="none"/><ellipse cx="188" cy="177" rx="5" ry="7" fill="#594238" stroke="none"/>
+  <circle cx="113" cy="175" r="1.8" fill="#fff" stroke="none"/><circle cx="189" cy="175" r="1.8" fill="#fff" stroke="none"/>
+  <path d="M150 174 Q144 205 137 218 Q150 229 164 218" stroke-width="2" opacity=".65"/>
+  <path d="M130 257 Q150 246 170 257 Q150 273 130 257Z" fill="#a65e5b" stroke-width="1.5"/>
+  <path d="M136 257 Q150 262 164 257" stroke="#f0b6a7" stroke-width="1.2"/>
+ </g>
+ <path d="M76 106 Q79 59 124 47 Q177 28 215 78" fill="none" stroke="#8a6650" stroke-opacity=".35" stroke-width="3"/>
+ <g id="v2FaceMarkers"></g>
+ <text x="150" y="344" text-anchor="middle" class="v2-face-caption">SKIN MAP · FRONT VIEW</text>
+</svg>
     <div><div class="v2-section-title"><b id="v2SelectedZone">Лоб</b><span class="v2-pill">Количество</span></div><div class="v2-field"><label>Активные воспаления в выбранной зоне</label><input id="v2ZoneCount" type="number" min="0" max="99" step="1" value="0"></div><div class="v2-zone-list" id="v2ZoneList"></div><p class="v2-muted">Считай активные элементы, а не следы постакне. Значения сохраняются в новой записи дневника.</p></div>
    </div>
   </div>
@@ -73,6 +106,11 @@ function updateZoneMap(){
  n.innerHTML=zoneKeys.map(k=>'<button class="v2-zone-btn '+(k===selectedZone?"active":"")+'" data-v2-zone="'+k+'"><b>'+zoneNames[k]+'</b><small>'+Number(byId("v2z_"+k)?.value||0)+'</small></button>').join("");
  document.querySelectorAll("[data-v2-zone]").forEach(b=>b.onclick=()=>selectZone(b.dataset.v2Zone));
  document.querySelectorAll(".v2-zone").forEach(p=>{p.classList.toggle("active",p.dataset.zone===selectedZone);p.onclick=()=>selectZone(p.dataset.zone)});
+ const markerLayer=byId("v2FaceMarkers");
+ if(markerLayer){
+  const coords={forehead:[112,108],leftCheek:[101,190],rightCheek:[199,190],nose:[150,204],chin:[150,276],leftJaw:[101,246],rightJaw:[199,246]};
+  markerLayer.innerHTML=zoneKeys.map(k=>{const n=Math.max(0,Number(byId("v2z_"+k)?.value||0));if(!n)return "";const [x,y]=coords[k];return '<g class="v2-count-marker '+(k===selectedZone?"selected":"")+'" transform="translate('+x+' '+y+')"><circle r="13" class="marker-halo"/><circle r="10" class="marker-core"/><text y="3.5" text-anchor="middle">'+(n>99?"99+":n)+'</text></g>'}).join("");
+ }
  byId("v2SelectedZone").textContent=zoneNames[selectedZone];
  byId("v2ZoneCount").value=byId("v2z_"+selectedZone)?.value||0;
 }
