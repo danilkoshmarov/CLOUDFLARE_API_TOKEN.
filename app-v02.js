@@ -72,7 +72,7 @@ if(!byId("calendar")){
   <div class="v2-card"><div class="v2-section-title"><h2>Календарь состояния</h2><div class="v2-btnrow"><button id="v2PrevMonth" aria-label="Предыдущий месяц">‹</button><button id="v2NextMonth" aria-label="Следующий месяц">›</button></div></div><h3 id="v2MonthLabel"></h3><div class="v2-calendar" id="v2Calendar"></div><div class="v2-muted" style="margin-top:10px">Цвета показывают ориентировочную динамику по оценке воспалений: зелёный — ниже, жёлтый — средняя, красный — выше. Сравнение относительно твоих собственных записей.</div><div id="v2CalendarDetail" class="v2-tip" style="margin-top:12px">Выбери день, чтобы посмотреть запись.</div></div>
   <div class="v2-card"><h2>Факторы и динамика</h2><p class="v2-muted">Сравнение средних оценок воспалений в твоих записях. Это наблюдаемые совпадения, не доказательство причины.</p><div id="v2FactorInsights" class="v2-shell"><div class="v2-empty">Добавь несколько записей с факторами.</div></div></div>
   <div class="v2-card"><h2>Сравнение фотографий</h2><p class="v2-muted">Выбери две даты с фотографиями. Для честного сравнения снимай лицо при одинаковом освещении, расстоянии и ракурсе.</p><div class="v2-grid"><div class="v2-field"><label>Первое фото</label><select id="v2PhotoA"></select></div><div class="v2-field"><label>Второе фото</label><select id="v2PhotoB"></select></div></div><div id="v2CompareArea" class="v2-empty">Добавь фотографии в дневник, чтобы сравнить их.</div><div id="v2SliderControl" class="v2-field hidden"><label>Наложение фотографий</label><input id="v2CompareSlider" type="range" min="0" max="100" value="50"></div></div>
-  <div class="v2-card" id="skinLabCard"><div class="v2-section-title"><div><div class="eyebrow">PANACEA SKIN · SKIN LAB</div><h2 style="margin:5px 0 0">Разметка фотографии</h2></div><span class="v2-pill">Локально</span></div><p class="v2-muted">Отмечай видимые элементы прямо на снимке. Метки сохраняются на устройстве и помогают сравнивать одни и те же зоны со временем.</p><div class="v2-field"><label>Фотография из дневника</label><select id="skinLabPhoto"></select></div><div class="v2-skin-stage" id="skinLabStage"><div class="v2-empty">Добавь фотографию в дневник, чтобы начать разметку.</div></div><div class="v2-lab-auto v2-ai-panel"><div class="v2-section-title"><b>AI-детектор акне</b><span class="v2-pill">ONNX · локально</span></div><p class="v2-muted">Модель ищет комедоны, папулы, пустулы и узлы. При первом запуске загружается файл модели около 45 МБ. Фото обрабатывается только в браузере.</p><div class="v2-ai-progress hidden" id="skinLabAiProgress"><div id="skinLabAiProgressBar"></div></div><div class="v2-field"><label for="skinLabAiThreshold">Порог уверенности: <b id="skinLabAiThresholdValue">35%</b></label><input id="skinLabAiThreshold" type="range" min="5" max="80" step="5" value="35"></div><div class="v2-btnrow"><button class="primary" id="skinLabScan" type="button">Запустить AI-анализ</button><button id="skinLabAccept" type="button" disabled>Добавить найденное в метки</button></div><p class="v2-muted" id="skinLabAutoStatus">Готов к запуску. Для первого анализа потребуется интернет, чтобы загрузить модель и движок.</p><p class="v2-muted">Важно: экспериментальный исследовательский детектор. Возможны пропуски и ложные срабатывания; результат не является диагнозом.</p></div><div class="v2-grid"><div class="v2-field"><label>Тип элемента</label><select id="skinLabType"><option value="inflamed">Воспаление</option><option value="comedone">Комедон</option><option value="redness">Покраснение</option><option value="mark">След постакне</option></select></div><div class="v2-field"><label>Инструменты</label><div class="v2-btnrow"><button id="skinLabUndo" type="button">Отменить метку</button><button id="skinLabClear" type="button">Очистить фото</button></div></div></div><div class="v2-lab-stats" id="skinLabStats"></div><p class="v2-muted" id="skinLabStatus">Выбери фотографию и нажимай на неё, чтобы поставить метки.</p><div class="v2-tip">Это ручная разметка, а не автоматическая диагностика. Настоящий AI-анализ потребует отдельной модели компьютерного зрения; мы не будем выдавать приблизительные алгоритмы за медицински точный AI. Фотографии и метки остаются в локальном хранилище.</div></div>
+  <div class="v2-card" id="skinLabCard"><div class="v2-section-title"><div><div class="eyebrow">PANACEA SKIN · SKIN LAB</div><h2 style="margin:5px 0 0">Разметка фотографии</h2></div><span class="v2-pill">Локально</span></div><p class="v2-muted">Отмечай видимые элементы прямо на снимке. Метки сохраняются на устройстве и помогают сравнивать одни и те же зоны со временем.</p><div class="v2-field"><label>Фотография из дневника</label><select id="skinLabPhoto"></select></div><div class="v2-skin-stage" id="skinLabStage"><div class="v2-empty">Добавь фотографию в дневник, чтобы начать разметку.</div></div><div class="v2-lab-auto v2-ai-panel"><div class="v2-section-title"><b>AI-детектор акне</b><span class="v2-pill">ONNX · локально</span></div><p class="v2-muted">Модель ищет комедоны, папулы, пустулы и узлы. При первом запуске загружается файл модели около 45 МБ. Фото обрабатывается только в браузере.</p><div class="v2-ai-progress hidden" id="skinLabAiProgress"><div id="skinLabAiProgressBar"></div></div><div class="v2-field"><label for="skinLabAiThreshold">Порог уверенности: <b id="skinLabAiThresholdValue">35%</b></label><input id="skinLabAiThreshold" type="range" min="5" max="80" step="5" value="35"></div><div class="v2-btnrow"><button class="primary" id="skinLabScan" type="button">Запустить AI-анализ</button><button id="skinLabAccept" type="button" disabled>Добавить найденное в метки</button><button id="skinLabToJournal" type="button" disabled>Заполнить дневник</button></div><p class="v2-muted" id="skinLabAutoStatus">Готов к запуску. Для первого анализа потребуется интернет, чтобы загрузить модель и движок.</p><p class="v2-muted">Важно: экспериментальный исследовательский детектор. Возможны пропуски и ложные срабатывания; результат не является диагнозом.</p></div><div class="v2-grid"><div class="v2-field"><label>Тип элемента</label><select id="skinLabType"><option value="inflamed">Воспаление</option><option value="comedone">Комедон</option><option value="redness">Покраснение</option><option value="mark">След постакне</option></select></div><div class="v2-field"><label>Инструменты</label><div class="v2-btnrow"><button id="skinLabUndo" type="button">Отменить метку</button><button id="skinLabClear" type="button">Очистить фото</button></div></div></div><div class="v2-lab-stats" id="skinLabStats"></div><p class="v2-muted" id="skinLabStatus">Выбери фотографию и нажимай на неё, чтобы поставить метки.</p><div class="v2-tip">Это ручная разметка, а не автоматическая диагностика. Настоящий AI-анализ потребует отдельной модели компьютерного зрения; мы не будем выдавать приблизительные алгоритмы за медицински точный AI. Фотографии и метки остаются в локальном хранилище.</div></div>
   <div class="v2-card"><h2>Установка приложения</h2><div class="v2-install"><p class="v2-muted">Установи PANACEA SKIN на главный экран. Данные останутся в локальном хранилище этого браузера.</p><button class="primary" id="v2InstallBtn">Установить приложение</button></div><p id="v2InstallHelp" class="v2-muted" style="margin-top:10px">На iPhone: открой сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».</p><div class="v2-tip" style="margin-top:10px">Установка не заменяет резервную копию. При очистке данных Safari или удалении сайта локальная история может пропасть.</div></div>
  </div>`;
  const dataPage=byId("data");dataPage?.parentNode.insertBefore(sec,dataPage);
@@ -84,7 +84,7 @@ if(journal&&!byId("v2QuickFill")){
  card.querySelector("h2").after(quick);
  const notes=byId("entryNotes").closest(".field");
  const extra=document.createElement("div");extra.className="v2-card";extra.style.margin="12px 0";extra.innerHTML=`
-  <h3>Карта лица для этой записи</h3><p class="v2-muted">Количество активных воспалений в каждой зоне.</p><div class="v2-grid" id="v2JournalZones"></div>
+  <h3>Карта лица для этой записи</h3><p class="v2-muted">Количество активных воспалений в каждой зоне.</p><div class="v2-grid" id="v2JournalZones"></div><h3 style="margin-top:14px">AI-анализ фотографии</h3><div class="v2-tip" id="v2AiJournalSummary">Результат AI-анализа пока не перенесён.</div>
   <h3 style="margin-top:14px">Факторы за последние сутки</h3><div class="v2-grid">
    <div class="v2-field"><label>Продолжительность сна, часов</label><input id="v2Sleep" type="number" min="0" max="24" step=".5" placeholder="Например, 8"></div>
    <div class="v2-field"><label>Стресс · 0–4</label><select id="v2Stress"><option value="">Не отмечать</option><option value="0">0 — нет</option><option value="1">1 — низкий</option><option value="2">2 — умеренный</option><option value="3">3 — высокий</option><option value="4">4 — очень высокий</option></select></div>
@@ -208,6 +208,7 @@ function attachJournal(){
    await original.call(this,ev);
    const entry=state.entries.find(e=>!before.has(e.id));if(!entry)return;
    entry.zones=zoneCounts();
+   if(pendingAiJournalReport){entry.aiAnalysis={...pendingAiJournalReport,recordedAt:Date.now()};pendingAiJournalReport=null;byId("v2AiJournalSummary").textContent="AI-анализ сохранён вместе с записью.";}
    entry.factors={sleep:byId("v2Sleep").value===""?null:Number(byId("v2Sleep").value),stress:byId("v2Stress").value===""?null:Number(byId("v2Stress").value),food:byId("v2Food").value.trim(),other:byId("v2Other").value.trim()};
    entry.usedProducts=[...document.querySelectorAll("[data-v2-product]:checked")].map(x=>x.value);
    entry.reactionLevel=byId("v2Reaction").value===""?null:Number(byId("v2Reaction").value);
@@ -247,7 +248,7 @@ const labColors={inflamed:"#ff786e",comedone:"#e8c77c",redness:"#d995b8",mark:"#
 function drawSkinLabMarks(){
  const svg=byId("skinLabOverlay"),id=byId("skinLabPhoto")?.value;if(!svg||!id)return;
  const e=state.entries.find(x=>x.id===id);e.skinMarks??=[];
- svg.innerHTML=skinLabCandidates.map(c=>`<rect x="${c.x*1000}" y="${c.y*1000}" width="${c.w*1000}" height="${c.h*1000}" rx="10" fill="#e8c77c" fill-opacity=".10" stroke="#e8c77c" stroke-width="4" stroke-dasharray="9 6" pointer-events="none"/><text x="${c.x*1000}" y="${Math.max(18,c.y*1000-7)}" fill="#f3d58e" font-size="24" font-weight="700" pointer-events="none">${c.label} ${Math.round(c.conf*100)}%</text>`).join("")+e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
+ svg.innerHTML=skinLabCandidates.map(c=>`<rect x="${c.x*1000}" y="${c.y*1000}" width="${c.w*1000}" height="${c.h*1000}" rx="10" fill="#e8c77c" fill-opacity=".10" stroke="#e8c77c" stroke-width="4" stroke-dasharray="9 6" pointer-events="none"/><text x="${c.x*1000}" y="${Math.max(18,c.y*1000-7)}" fill="#f3d58e" font-size="24" font-weight="700" pointer-events="none">${safe(c.label)} · ${Math.round(c.conf*100)}%</text>`).join("")+e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
  const counts={};Object.keys(labTypeNames).forEach(k=>counts[k]=e.skinMarks.filter(m=>m.type===k).length);
  byId("skinLabStats").innerHTML=Object.keys(labTypeNames).map(k=>'<span class="v2-lab-stat"><i style="background:'+labColors[k]+'"></i>'+labTypeNames[k]+': <b>'+counts[k]+'</b></span>').join("");
  svg.onclick=ev=>{
@@ -257,6 +258,7 @@ function drawSkinLabMarks(){
 }
 
 let skinLabCandidates=[];
+let pendingAiJournalReport=null;
 let acneModelSession=null,acneModelPromise=null;
 const ACNE_MODEL_URL="https://huggingface.co/mufasabrownie/glowlytics-skin-models/resolve/main/acne_detector.onnx";
 const ACNE_RUNTIME_URL="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.20.1/dist/ort.min.js";
@@ -358,7 +360,7 @@ async function scanSkinLab(){
   const outputTensor=output[session.outputNames[0]];
   skinLabCandidates=decodeAcneOutput(outputTensor,input);
   drawSkinLabMarks();
-  byId("skinLabAccept").disabled=!skinLabCandidates.length;
+  byId("skinLabAccept").disabled=!skinLabCandidates.length;byId("skinLabToJournal").disabled=!skinLabCandidates.length;
   setAiStatus(skinLabCandidates.length
    ?"Найдено объектов: "+skinLabCandidates.length+". Рамки показывают прогноз модели — проверь каждый объект перед сохранением."
    :"Модель не обнаружила объектов выше порога уверенности. Это не означает, что высыпаний нет.",null);
@@ -367,12 +369,27 @@ async function scanSkinLab(){
   setAiStatus("Ошибка AI-анализа: "+(err?.message||String(err))+". Попробуй ещё раз или проверь интернет.",null);
  }finally{button.disabled=false}
 }
+function fillJournalFromAi(){
+ const photoEntry=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);
+ if(!photoEntry||!skinLabCandidates.length)return;
+ const classCounts={};
+ skinLabCandidates.forEach(c=>{const name=String(c.label||("Класс "+c.classId));classCounts[name]=(classCounts[name]||0)+1});
+ const avgConfidence=skinLabCandidates.reduce((sum,c)=>sum+Number(c.conf||0),0)/skinLabCandidates.length;
+ pendingAiJournalReport={source:"onnx-acne-detector",photoDate:photoEntry.date,count:skinLabCandidates.length,classes:classCounts,averageConfidence:Number(avgConfidence.toFixed(4)),threshold:Number(byId("skinLabAiThreshold").value)/100};
+ byId("entryDate").value=photoEntry.date;
+ const summary="AI-анализ: "+skinLabCandidates.length+" обнаружений; "+Object.entries(classCounts).map(([k,v])=>k+": "+v).join(", ")+". Средняя уверенность: "+Math.round(avgConfidence*100)+"%. Порог: "+byId("skinLabAiThreshold").value+"%.";
+ const notes=byId("entryNotes");notes.value=notes.value.trim()?notes.value.trim()+"\n"+summary:summary;
+ const box=byId("v2AiJournalSummary");
+ if(box)box.textContent="Подготовлено для записи от "+dateLabel(photoEntry.date)+": "+summary+" Проверь заметку и остальные поля, затем сохрани запись. AI не оценивает тяжесть акне и не определяет зоны лица.";
+ document.querySelector('[data-page="journal"]')?.click();
+ byId("saveEntry").scrollIntoView({behavior:"smooth",block:"center"});
+}
 function acceptSkinLabCandidates(){
  const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e||!skinLabCandidates.length)return;
  e.skinMarks??=[];
  skinLabCandidates.forEach(c=>e.skinMarks.push({x:c.x+c.w/2,y:c.y+c.h/2,type:"inflamed",createdAt:Date.now(),source:"onnx-acne-detector",modelClass:c.label,confidence:c.conf,box:{x:c.x,y:c.y,w:c.w,h:c.h}}));
  const count=skinLabCandidates.length;skinLabCandidates=[];save();drawSkinLabMarks();
- byId("skinLabAccept").disabled=true;setAiStatus("Добавлено меток: "+count+". Результаты можно исправлять вручную.",null);
+ byId("skinLabAccept").disabled=true;byId("skinLabToJournal").disabled=true;setAiStatus("Добавлено меток: "+count+". Результаты можно исправлять вручную.",null);
 }
 function undoSkinLabMark(){
  const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e?.skinMarks?.length)return;
@@ -398,7 +415,7 @@ function init(){
  document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.page==="calendar"){renderCalendar();renderCompare()}}));
  byId("v2PrevMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
- byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=()=>{skinLabCandidates=[];showSkinLabPhoto()};byId("skinLabScan").onclick=scanSkinLab;byId("skinLabAccept").onclick=acceptSkinLabCandidates;const aiThreshold=byId("skinLabAiThreshold");if(aiThreshold)aiThreshold.oninput=()=>byId("skinLabAiThresholdValue").textContent=aiThreshold.value+"%";byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
+ byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=()=>{skinLabCandidates=[];showSkinLabPhoto()};byId("skinLabScan").onclick=scanSkinLab;byId("skinLabAccept").onclick=acceptSkinLabCandidates;byId("skinLabToJournal").onclick=fillJournalFromAi;const aiThreshold=byId("skinLabAiThreshold");if(aiThreshold)aiThreshold.oninput=()=>byId("skinLabAiThresholdValue").textContent=aiThreshold.value+"%";byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
  byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
  attachJournal();renderCalendar();renderFactorInsights();renderSkinLab();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
