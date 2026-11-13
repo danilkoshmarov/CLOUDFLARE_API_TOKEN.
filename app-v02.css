@@ -39,3 +39,8 @@
 .v2-lab-stat i{width:8px;height:8px;border-radius:50%;display:inline-block}
 #skinLabUndo,#skinLabClear{font-size:11px;padding:8px}
 @media(max-width:650px){.v2-lab-image{max-height:70vh}.v2-lab-image img{max-height:70vh}}
+
+.v2-lab-auto{border:1px solid var(--line);border-radius:14px;padding:12px;margin:12px 0;background:var(--panel2)}
+.v2-lab-auto .v2-btnrow button:disabled{opacity:.4;cursor:not-allowed}
+.v2-lab-auto input[type=range]{width:100%;accent-color:var(--accent)}
+.v2-lab-auto .v2-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
