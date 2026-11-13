@@ -27,3 +27,15 @@
 .v2-face-wrap #v2ZoneCount{font-size:24px;font-weight:700;text-align:center;min-height:54px;border-radius:13px}
 .v2-face-wrap #v2SelectedZone{font-size:17px;letter-spacing:-.3px}
 @media(max-width:650px){.v2-face-wrap{grid-template-columns:1fr;gap:8px}.v2-face{max-width:300px;max-height:350px}.v2-face-wrap>div:last-child{padding:12px}.v2-zone-list{grid-template-columns:1fr 1fr}}
+
+/* Skin Lab photo annotation */
+.v2-skin-stage{background:#080d09;border:1px solid var(--line);border-radius:14px;overflow:hidden;min-height:120px}
+.v2-lab-image{position:relative;width:100%;line-height:0;max-height:620px;overflow:hidden}
+.v2-lab-image img{display:block;width:100%;max-height:620px;object-fit:contain;margin:auto}
+.v2-lab-image svg{position:absolute;inset:0;width:100%;height:100%;cursor:crosshair;touch-action:pan-y}
+.v2-lab-mark{pointer-events:none}
+.v2-lab-stats{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.v2-lab-stat{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:20px;padding:6px 9px;font-size:11px;color:var(--muted)}
+.v2-lab-stat i{width:8px;height:8px;border-radius:50%;display:inline-block}
+#skinLabUndo,#skinLabClear{font-size:11px;padding:8px}
+@media(max-width:650px){.v2-lab-image{max-height:70vh}.v2-lab-image img{max-height:70vh}}
