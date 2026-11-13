@@ -350,7 +350,7 @@ function decodeAcneOutput(tensor,meta){
 async function scanSkinLab(){
  const img=byId("skinLabImage");
  if(!img||!img.complete||!img.naturalWidth){setAiStatus("Сначала выбери фотографию.");return}
- const button=byId("skinLabScan");button.disabled=true;byId("skinLabAccept").disabled=true;skinLabCandidates=[];
+ const button=byId("skinLabScan");button.disabled=true;byId("skinLabAccept").disabled=true;byId("skinLabToJournal").disabled=true;skinLabCandidates=[];
  try{
   const session=await getAcneSession();
   setAiStatus("Анализирую фотографию на устройстве…",100);
@@ -415,7 +415,7 @@ function init(){
  document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.page==="calendar"){renderCalendar();renderCompare()}}));
  byId("v2PrevMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
- byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=()=>{skinLabCandidates=[];showSkinLabPhoto()};byId("skinLabScan").onclick=scanSkinLab;byId("skinLabAccept").onclick=acceptSkinLabCandidates;byId("skinLabToJournal").onclick=fillJournalFromAi;const aiThreshold=byId("skinLabAiThreshold");if(aiThreshold)aiThreshold.oninput=()=>byId("skinLabAiThresholdValue").textContent=aiThreshold.value+"%";byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
+ byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=()=>{skinLabCandidates=[];byId("skinLabAccept").disabled=true;byId("skinLabToJournal").disabled=true;showSkinLabPhoto()};byId("skinLabScan").onclick=scanSkinLab;byId("skinLabAccept").onclick=acceptSkinLabCandidates;byId("skinLabToJournal").onclick=fillJournalFromAi;const aiThreshold=byId("skinLabAiThreshold");if(aiThreshold)aiThreshold.oninput=()=>byId("skinLabAiThresholdValue").textContent=aiThreshold.value+"%";byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
  byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
  attachJournal();renderCalendar();renderFactorInsights();renderSkinLab();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
