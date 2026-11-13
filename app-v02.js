@@ -305,6 +305,7 @@ async function getAcneSession(){
   const model=await fetchAcneModel();
   setAiStatus("Инициализирую нейросеть…",100);
   acneModelSession=await ort.InferenceSession.create(model,{executionProviders:["wasm"],graphOptimizationLevel:"all"});
+  try{const raw=acneModelSession.metadata?.customMetadataMap?.names;if(raw){const parsed=JSON.parse(raw);acneClasses=Array.isArray(parsed)?parsed.map(String):Object.keys(parsed).sort((a,b)=>Number(a)-Number(b)).map(k=>String(parsed[k]))}}catch(e){}
   return acneModelSession;
  })();
  try{return await acneModelPromise}catch(err){acneModelPromise=null;throw err}
@@ -318,7 +319,6 @@ function letterboxImage(img,size){
  return {tensor:chw,scale,left,top,width:img.naturalWidth,height:img.naturalHeight};
 }
 function boxIou(a,b){
- const x1=Math.max(a.x,a.x2? a.x2:a.x+a.w),y1=Math.max(a.y,a.y+a.h);
  const xx1=Math.max(a.x,b.x),yy1=Math.max(a.y,b.y),xx2=Math.min(a.x+a.w,b.x+b.w),yy2=Math.min(a.y+a.h,b.y+b.h);
  const inter=Math.max(0,xx2-xx1)*Math.max(0,yy2-yy1),union=a.w*a.h+b.w*b.h-inter;return union>0?inter/union:0;
 }
