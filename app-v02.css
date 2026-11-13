@@ -44,3 +44,9 @@
 .v2-lab-auto .v2-btnrow button:disabled{opacity:.4;cursor:not-allowed}
 .v2-lab-auto input[type=range]{width:100%;accent-color:var(--accent)}
 .v2-lab-auto .v2-section-title{display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+/* PANACEA SKIN · on-device acne detector */
+.v2-ai-progress{height:7px;background:var(--line);border-radius:20px;overflow:hidden;margin:10px 0}
+.v2-ai-progress>div{height:100%;width:0;background:var(--accent);border-radius:20px;transition:width .18s ease}
+.v2-ai-panel button:disabled{opacity:.45;cursor:not-allowed}
+.v2-lab-image svg text{paint-order:stroke;stroke:#101711;stroke-width:4px;stroke-linejoin:round}
