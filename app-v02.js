@@ -72,7 +72,7 @@ if(!byId("calendar")){
   <div class="v2-card"><div class="v2-section-title"><h2>Календарь состояния</h2><div class="v2-btnrow"><button id="v2PrevMonth" aria-label="Предыдущий месяц">‹</button><button id="v2NextMonth" aria-label="Следующий месяц">›</button></div></div><h3 id="v2MonthLabel"></h3><div class="v2-calendar" id="v2Calendar"></div><div class="v2-muted" style="margin-top:10px">Цвета показывают ориентировочную динамику по оценке воспалений: зелёный — ниже, жёлтый — средняя, красный — выше. Сравнение относительно твоих собственных записей.</div><div id="v2CalendarDetail" class="v2-tip" style="margin-top:12px">Выбери день, чтобы посмотреть запись.</div></div>
   <div class="v2-card"><h2>Факторы и динамика</h2><p class="v2-muted">Сравнение средних оценок воспалений в твоих записях. Это наблюдаемые совпадения, не доказательство причины.</p><div id="v2FactorInsights" class="v2-shell"><div class="v2-empty">Добавь несколько записей с факторами.</div></div></div>
   <div class="v2-card"><h2>Сравнение фотографий</h2><p class="v2-muted">Выбери две даты с фотографиями. Для честного сравнения снимай лицо при одинаковом освещении, расстоянии и ракурсе.</p><div class="v2-grid"><div class="v2-field"><label>Первое фото</label><select id="v2PhotoA"></select></div><div class="v2-field"><label>Второе фото</label><select id="v2PhotoB"></select></div></div><div id="v2CompareArea" class="v2-empty">Добавь фотографии в дневник, чтобы сравнить их.</div><div id="v2SliderControl" class="v2-field hidden"><label>Наложение фотографий</label><input id="v2CompareSlider" type="range" min="0" max="100" value="50"></div></div>
-  <div class="v2-card" id="skinLabCard"><div class="v2-section-title"><div><div class="eyebrow">PANACEA SKIN · SKIN LAB</div><h2 style="margin:5px 0 0">Разметка фотографии</h2></div><span class="v2-pill">Локально</span></div><p class="v2-muted">Отмечай видимые элементы прямо на снимке. Метки сохраняются на устройстве и помогают сравнивать одни и те же зоны со временем.</p><div class="v2-field"><label>Фотография из дневника</label><select id="skinLabPhoto"></select></div><div class="v2-skin-stage" id="skinLabStage"><div class="v2-empty">Добавь фотографию в дневник, чтобы начать разметку.</div></div><div class="v2-grid"><div class="v2-field"><label>Тип элемента</label><select id="skinLabType"><option value="inflamed">Воспаление</option><option value="comedone">Комедон</option><option value="redness">Покраснение</option><option value="mark">След постакне</option></select></div><div class="v2-field"><label>Инструменты</label><div class="v2-btnrow"><button id="skinLabUndo" type="button">Отменить метку</button><button id="skinLabClear" type="button">Очистить фото</button></div></div></div><div class="v2-lab-stats" id="skinLabStats"></div><p class="v2-muted" id="skinLabStatus">Выбери фотографию и нажимай на неё, чтобы поставить метки.</p><div class="v2-tip">Это ручная разметка, а не автоматическая диагностика. Настоящий AI-анализ потребует отдельной модели компьютерного зрения; мы не будем выдавать приблизительные алгоритмы за медицински точный AI. Фотографии и метки остаются в локальном хранилище.</div></div>
+  <div class="v2-card" id="skinLabCard"><div class="v2-section-title"><div><div class="eyebrow">PANACEA SKIN · SKIN LAB</div><h2 style="margin:5px 0 0">Разметка фотографии</h2></div><span class="v2-pill">Локально</span></div><p class="v2-muted">Отмечай видимые элементы прямо на снимке. Метки сохраняются на устройстве и помогают сравнивать одни и те же зоны со временем.</p><div class="v2-field"><label>Фотография из дневника</label><select id="skinLabPhoto"></select></div><div class="v2-skin-stage" id="skinLabStage"><div class="v2-empty">Добавь фотографию в дневник, чтобы начать разметку.</div></div><div class="v2-lab-auto"><div class="v2-section-title"><b>Автопоиск красноватых участков</b><span class="v2-pill">На устройстве</span></div><p class="v2-muted">Локальный алгоритм выделяет цветовые кандидаты на снимке. Это не обученная AI-модель: проверяй каждую метку самостоятельно.</p><div class="v2-field"><label for="skinLabSensitivity">Чувствительность поиска: <b id="skinLabSensitivityValue">3</b></label><input id="skinLabSensitivity" type="range" min="1" max="5" value="3"></div><div class="v2-btnrow"><button class="primary" id="skinLabScan" type="button">Найти участки</button><button id="skinLabAccept" type="button" disabled>Добавить кандидатов в метки</button></div><p class="v2-muted" id="skinLabAutoStatus">Анализ выполняется локально, фото никуда не отправляется.</p></div><div class="v2-grid"><div class="v2-field"><label>Тип элемента</label><select id="skinLabType"><option value="inflamed">Воспаление</option><option value="comedone">Комедон</option><option value="redness">Покраснение</option><option value="mark">След постакне</option></select></div><div class="v2-field"><label>Инструменты</label><div class="v2-btnrow"><button id="skinLabUndo" type="button">Отменить метку</button><button id="skinLabClear" type="button">Очистить фото</button></div></div></div><div class="v2-lab-stats" id="skinLabStats"></div><p class="v2-muted" id="skinLabStatus">Выбери фотографию и нажимай на неё, чтобы поставить метки.</p><div class="v2-tip">Это ручная разметка, а не автоматическая диагностика. Настоящий AI-анализ потребует отдельной модели компьютерного зрения; мы не будем выдавать приблизительные алгоритмы за медицински точный AI. Фотографии и метки остаются в локальном хранилище.</div></div>
   <div class="v2-card"><h2>Установка приложения</h2><div class="v2-install"><p class="v2-muted">Установи PANACEA SKIN на главный экран. Данные останутся в локальном хранилище этого браузера.</p><button class="primary" id="v2InstallBtn">Установить приложение</button></div><p id="v2InstallHelp" class="v2-muted" style="margin-top:10px">На iPhone: открой сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».</p><div class="v2-tip" style="margin-top:10px">Установка не заменяет резервную копию. При очистке данных Safari или удалении сайта локальная история может пропасть.</div></div>
  </div>`;
  const dataPage=byId("data");dataPage?.parentNode.insertBefore(sec,dataPage);
@@ -247,13 +247,60 @@ const labColors={inflamed:"#ff786e",comedone:"#e8c77c",redness:"#d995b8",mark:"#
 function drawSkinLabMarks(){
  const svg=byId("skinLabOverlay"),id=byId("skinLabPhoto")?.value;if(!svg||!id)return;
  const e=state.entries.find(x=>x.id===id);e.skinMarks??=[];
- svg.innerHTML=e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
+ svg.innerHTML=skinLabCandidates.map(c=>`<circle cx="${c.x*1000}" cy="${c.y*1000}" r="24" fill="#e8c77c" fill-opacity=".12" stroke="#e8c77c" stroke-width="5" stroke-dasharray="8 6"/>`).join("")+e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
  const counts={};Object.keys(labTypeNames).forEach(k=>counts[k]=e.skinMarks.filter(m=>m.type===k).length);
  byId("skinLabStats").innerHTML=Object.keys(labTypeNames).map(k=>'<span class="v2-lab-stat"><i style="background:'+labColors[k]+'"></i>'+labTypeNames[k]+': <b>'+counts[k]+'</b></span>').join("");
  svg.onclick=ev=>{
   const rect=svg.getBoundingClientRect(),x=Math.max(0,Math.min(1,(ev.clientX-rect.left)/rect.width)),y=Math.max(0,Math.min(1,(ev.clientY-rect.top)/rect.height));
   e.skinMarks.push({x,y,type:byId("skinLabType").value,createdAt:Date.now()});save();drawSkinLabMarks();
  };
+}
+
+let skinLabCandidates=[];
+function scanSkinLab(){
+ const img=byId("skinLabImage"),entry=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);
+ if(!img||!entry||!img.complete||!img.naturalWidth){byId("skinLabAutoStatus").textContent="Сначала выбери фотографию.";return}
+ const scale=Math.min(1,500/Math.max(img.naturalWidth,img.naturalHeight)),w=Math.max(1,Math.round(img.naturalWidth*scale)),h=Math.max(1,Math.round(img.naturalHeight*scale));
+ const canvas=document.createElement("canvas");canvas.width=w;canvas.height=h;
+ const ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(img,0,0,w,h);
+ let data;try{data=ctx.getImageData(0,0,w,h).data}catch(err){byId("skinLabAutoStatus").textContent="Браузер не разрешил обработать фото.";return}
+ const level=Number(byId("skinLabSensitivity").value||3),threshold=36-(level-1)*5,mask=new Uint8Array(w*h),visited=new Uint8Array(w*h);
+ for(let y=2;y<h-2;y++)for(let x=2;x<w-2;x++){
+  const i=(y*w+x)*4,r=data[i],g=data[i+1],b=data[i+2],brightness=(r+g+b)/3;
+  const redExcess=r-Math.max(g,b),warmRed=r-g;
+  if(brightness>55&&brightness<248&&redExcess>threshold&&warmRed>10)mask[y*w+x]=1;
+ }
+ const found=[],queue=new Int32Array(w*h);
+ for(let p=0;p<mask.length;p++){
+  if(!mask[p]||visited[p])continue;
+  let head=0,tail=0,minX=w,minY=h,maxX=0,maxY=0,sumX=0,sumY=0;
+  queue[tail++]=p;visited[p]=1;
+  while(head<tail){
+   const q=queue[head++],x=q%w,y=(q/w)|0;sumX+=x;sumY+=y;
+   if(x<minX)minX=x;if(x>maxX)maxX=x;if(y<minY)minY=y;if(y>maxY)maxY=y;
+   for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+    if(!dx&&!dy)continue;const nx=x+dx,ny=y+dy;if(nx<0||ny<0||nx>=w||ny>=h)continue;
+    const np=ny*w+nx;if(mask[np]&&!visited[np]){visited[np]=1;queue[tail++]=np}
+   }
+  }
+  const boxW=maxX-minX+1,boxH=maxY-minY+1;
+  if(tail>=2&&tail<=Math.max(80,w*h*.002)&&boxW<=Math.max(18,w*.055)&&boxH<=Math.max(18,h*.055)){
+   found.push({x:(sumX/tail)/w,y:(sumY/tail)/h,area:tail});
+  }
+ }
+ skinLabCandidates=found;drawSkinLabMarks();
+ byId("skinLabAutoStatus").textContent=found.length
+  ?"Найдено кандидатов: "+found.length+". Жёлтые пунктирные круги — проверь и добавь только подходящие."
+  :"Кандидатов не найдено. Попробуй повысить чувствительность или отметь элементы вручную.";
+ byId("skinLabAccept").disabled=!found.length;
+}
+function acceptSkinLabCandidates(){
+ const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e||!skinLabCandidates.length)return;
+ const type=byId("skinLabType").value;e.skinMarks??=[];
+ skinLabCandidates.forEach(c=>e.skinMarks.push({x:c.x,y:c.y,type,createdAt:Date.now(),source:"local-color-candidate"}));
+ const count=skinLabCandidates.length;skinLabCandidates=[];save();drawSkinLabMarks();
+ byId("skinLabAccept").disabled=true;
+ byId("skinLabAutoStatus").textContent="Добавлено меток: "+count+". Удали ошибочные метки вручную.";
 }
 function undoSkinLabMark(){
  const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e?.skinMarks?.length)return;
@@ -279,7 +326,7 @@ function init(){
  document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.page==="calendar"){renderCalendar();renderCompare()}}));
  byId("v2PrevMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
- byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=showSkinLabPhoto;byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
+ byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=()=>{skinLabCandidates=[];showSkinLabPhoto()};byId("skinLabScan").onclick=scanSkinLab;byId("skinLabAccept").onclick=acceptSkinLabCandidates;byId("skinLabSensitivity").oninput=e=>byId("skinLabSensitivityValue").textContent=e.target.value;byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
  byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
  attachJournal();renderCalendar();renderFactorInsights();renderSkinLab();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
