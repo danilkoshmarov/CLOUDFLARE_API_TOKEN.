@@ -72,6 +72,7 @@ if(!byId("calendar")){
   <div class="v2-card"><div class="v2-section-title"><h2>Календарь состояния</h2><div class="v2-btnrow"><button id="v2PrevMonth" aria-label="Предыдущий месяц">‹</button><button id="v2NextMonth" aria-label="Следующий месяц">›</button></div></div><h3 id="v2MonthLabel"></h3><div class="v2-calendar" id="v2Calendar"></div><div class="v2-muted" style="margin-top:10px">Цвета показывают ориентировочную динамику по оценке воспалений: зелёный — ниже, жёлтый — средняя, красный — выше. Сравнение относительно твоих собственных записей.</div><div id="v2CalendarDetail" class="v2-tip" style="margin-top:12px">Выбери день, чтобы посмотреть запись.</div></div>
   <div class="v2-card"><h2>Факторы и динамика</h2><p class="v2-muted">Сравнение средних оценок воспалений в твоих записях. Это наблюдаемые совпадения, не доказательство причины.</p><div id="v2FactorInsights" class="v2-shell"><div class="v2-empty">Добавь несколько записей с факторами.</div></div></div>
   <div class="v2-card"><h2>Сравнение фотографий</h2><p class="v2-muted">Выбери две даты с фотографиями. Для честного сравнения снимай лицо при одинаковом освещении, расстоянии и ракурсе.</p><div class="v2-grid"><div class="v2-field"><label>Первое фото</label><select id="v2PhotoA"></select></div><div class="v2-field"><label>Второе фото</label><select id="v2PhotoB"></select></div></div><div id="v2CompareArea" class="v2-empty">Добавь фотографии в дневник, чтобы сравнить их.</div><div id="v2SliderControl" class="v2-field hidden"><label>Наложение фотографий</label><input id="v2CompareSlider" type="range" min="0" max="100" value="50"></div></div>
+  <div class="v2-card" id="skinLabCard"><div class="v2-section-title"><div><div class="eyebrow">PANACEA SKIN · SKIN LAB</div><h2 style="margin:5px 0 0">Разметка фотографии</h2></div><span class="v2-pill">Локально</span></div><p class="v2-muted">Отмечай видимые элементы прямо на снимке. Метки сохраняются на устройстве и помогают сравнивать одни и те же зоны со временем.</p><div class="v2-field"><label>Фотография из дневника</label><select id="skinLabPhoto"></select></div><div class="v2-skin-stage" id="skinLabStage"><div class="v2-empty">Добавь фотографию в дневник, чтобы начать разметку.</div></div><div class="v2-grid"><div class="v2-field"><label>Тип элемента</label><select id="skinLabType"><option value="inflamed">Воспаление</option><option value="comedone">Комедон</option><option value="redness">Покраснение</option><option value="mark">След постакне</option></select></div><div class="v2-field"><label>Инструменты</label><div class="v2-btnrow"><button id="skinLabUndo" type="button">Отменить метку</button><button id="skinLabClear" type="button">Очистить фото</button></div></div></div><div class="v2-lab-stats" id="skinLabStats"></div><p class="v2-muted" id="skinLabStatus">Выбери фотографию и нажимай на неё, чтобы поставить метки.</p><div class="v2-tip">Это ручная разметка, а не автоматическая диагностика. Настоящий AI-анализ потребует отдельной модели компьютерного зрения; мы не будем выдавать приблизительные алгоритмы за медицински точный AI. Фотографии и метки остаются в локальном хранилище.</div></div>
   <div class="v2-card"><h2>Установка приложения</h2><div class="v2-install"><p class="v2-muted">Установи PANACEA SKIN на главный экран. Данные останутся в локальном хранилище этого браузера.</p><button class="primary" id="v2InstallBtn">Установить приложение</button></div><p id="v2InstallHelp" class="v2-muted" style="margin-top:10px">На iPhone: открой сайт в Safari → «Поделиться» → «На экран Домой» → «Добавить».</p><div class="v2-tip" style="margin-top:10px">Установка не заменяет резервную копию. При очистке данных Safari или удалении сайта локальная история может пропасть.</div></div>
  </div>`;
  const dataPage=byId("data");dataPage?.parentNode.insertBefore(sec,dataPage);
@@ -217,6 +218,52 @@ function attachJournal(){
   };
  }
 }
+
+let skinLabUrl="";
+function labPhotoEntries(){return state.entries.filter(e=>e.photo).sort((a,b)=>a.date.localeCompare(b.date))}
+async function renderSkinLab(){
+ const sel=byId("skinLabPhoto");if(!sel)return;
+ const photos=labPhotoEntries(),previous=sel.value;
+ sel.innerHTML=photos.map(e=>'<option value="'+safe(e.id)+'">'+dateLabel(e.date)+'</option>').join("");
+ if(previous&&photos.some(e=>e.id===previous))sel.value=previous;else if(photos.length)sel.selectedIndex=photos.length-1;
+ if(!photos.length){byId("skinLabStage").innerHTML='<div class="v2-empty">Пока нет фотографий. Добавь снимок в разделе «Дневник».</div>';byId("skinLabStats").innerHTML="";return}
+ await showSkinLabPhoto();
+}
+async function showSkinLabPhoto(){
+ const id=byId("skinLabPhoto")?.value,entry=state.entries.find(e=>e.id===id);if(!entry)return;
+ if(skinLabUrl)URL.revokeObjectURL(skinLabUrl);
+ try{
+  const blob=await photoGet(id);if(!blob)throw Error("Фото не найдено");
+  skinLabUrl=URL.createObjectURL(blob);
+  byId("skinLabStage").innerHTML='<div class="v2-lab-image"><img id="skinLabImage" src="'+skinLabUrl+'" alt="Фото для разметки"><svg id="skinLabOverlay" viewBox="0 0 1000 1000" preserveAspectRatio="none" aria-label="Метки на фотографии"></svg></div>';
+  const img=byId("skinLabImage");
+  img.onload=()=>drawSkinLabMarks();
+  drawSkinLabMarks();
+  byId("skinLabStatus").textContent="Фото от "+dateLabel(entry.date)+". Нажми на элемент, чтобы отметить его.";
+ }catch(err){byId("skinLabStage").textContent="Не удалось открыть фото: "+err.message}
+}
+const labTypeNames={inflamed:"Воспаления",comedone:"Комедоны",redness:"Покраснения",mark:"Следы постакне"};
+const labColors={inflamed:"#ff786e",comedone:"#e8c77c",redness:"#d995b8",mark:"#8eb7ed"};
+function drawSkinLabMarks(){
+ const svg=byId("skinLabOverlay"),id=byId("skinLabPhoto")?.value;if(!svg||!id)return;
+ const e=state.entries.find(x=>x.id===id);e.skinMarks??=[];
+ svg.innerHTML=e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
+ const counts={};Object.keys(labTypeNames).forEach(k=>counts[k]=e.skinMarks.filter(m=>m.type===k).length);
+ byId("skinLabStats").innerHTML=Object.keys(labTypeNames).map(k=>'<span class="v2-lab-stat"><i style="background:'+labColors[k]+'"></i>'+labTypeNames[k]+': <b>'+counts[k]+'</b></span>').join("");
+ svg.onclick=ev=>{
+  const rect=svg.getBoundingClientRect(),x=Math.max(0,Math.min(1,(ev.clientX-rect.left)/rect.width)),y=Math.max(0,Math.min(1,(ev.clientY-rect.top)/rect.height));
+  e.skinMarks.push({x,y,type:byId("skinLabType").value,createdAt:Date.now()});save();drawSkinLabMarks();
+ };
+}
+function undoSkinLabMark(){
+ const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e?.skinMarks?.length)return;
+ e.skinMarks.pop();save();drawSkinLabMarks();
+}
+function clearSkinLabMarks(){
+ const e=state.entries.find(x=>x.id===byId("skinLabPhoto")?.value);if(!e?.skinMarks?.length)return;
+ if(!confirm("Удалить все метки с этой фотографии?"))return;
+ e.skinMarks=[];save();drawSkinLabMarks();
+}
 function setupPwa(){
  const link=document.createElement("link");link.rel="manifest";link.href="./manifest.webmanifest";document.head.append(link);
  const apple=document.createElement("meta");apple.name="apple-mobile-web-app-capable";apple.content="yes";document.head.append(apple);
@@ -232,9 +279,9 @@ function init(){
  document.querySelectorAll("[data-page]").forEach(b=>b.addEventListener("click",()=>{if(b.dataset.page==="calendar"){renderCalendar();renderCompare()}}));
  byId("v2PrevMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()-1);renderCalendar()};
  byId("v2NextMonth").onclick=()=>{monthCursor.setMonth(monthCursor.getMonth()+1);renderCalendar()};
- byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;
+ byId("v2PhotoA").onchange=updateCompare;byId("v2PhotoB").onchange=updateCompare;byId("skinLabPhoto").onchange=showSkinLabPhoto;byId("skinLabUndo").onclick=undoSkinLabMark;byId("skinLabClear").onclick=clearSkinLabMarks;
  byId("v2CompareSlider").oninput=e=>{const overlay=byId("v2Overlay");if(overlay)overlay.style.width=e.target.value+"%"};
- attachJournal();renderCalendar();renderFactorInsights();setupPwa();
+ attachJournal();renderCalendar();renderFactorInsights();renderSkinLab();setupPwa();
  // Existing backups already serialize the full state object, so v0.2 fields are included automatically.
  save();
 }
