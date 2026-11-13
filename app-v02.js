@@ -12,7 +12,7 @@ const ensureState=()=>{state.faceMap??={};state.factors??={};state.reactions??=[
 ensureState();
 const nav=document.querySelector('.tabs');
 if(nav&&!document.querySelector('[data-page="calendar"]')){
- const b=document.createElement("button");b.dataset.page="calendar";b.textContent="Календарь";nav.insertBefore(b,nav.querySelector('[data-page="data"]'));b.onclick=()=>{document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="calendar"));renderCalendar();renderCompare();renderFactorInsights()};
+ const b=document.createElement("button");b.dataset.page="calendar";b.textContent="Календарь";nav.insertBefore(b,nav.querySelector('[data-page="data"]'));b.onclick=()=>{document.querySelectorAll("[data-page]").forEach(x=>x.classList.toggle("active",x===b));document.querySelectorAll(".page").forEach(x=>x.classList.toggle("active",x.id==="calendar"));renderCalendar();renderCompare();renderFactorInsights();renderSkinLab()};
 }
 if(!byId("calendar")){
  const sec=document.createElement("section");sec.className="page";sec.id="calendar";
@@ -213,7 +213,7 @@ function attachJournal(){
    entry.reactionLevel=byId("v2Reaction").value===""?null:Number(byId("v2Reaction").value);
    entry.reactionWhen=byId("v2ReactionWhen").value;entry.reactionNote=byId("v2ReactionNote").value.trim();
    state.reactions.push({entryId:entry.id,date:entry.date,productIds:entry.usedProducts,level:entry.reactionLevel,when:entry.reactionWhen,note:entry.reactionNote});
-   save();renderCalendar();renderUsedProducts();renderFactorInsights();
+   save();renderCalendar();renderUsedProducts();renderFactorInsights();renderSkinLab();
    zoneKeys.forEach(k=>byId("v2z_"+k).value=0);updateZoneMap();byId("v2Sleep").value="";byId("v2Stress").value="";byId("v2Food").value="";byId("v2Other").value="";byId("v2Reaction").value="";byId("v2ReactionWhen").value="";byId("v2ReactionNote").value="";
   };
  }
