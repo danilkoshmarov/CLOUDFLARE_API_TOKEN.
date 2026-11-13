@@ -247,7 +247,7 @@ const labColors={inflamed:"#ff786e",comedone:"#e8c77c",redness:"#d995b8",mark:"#
 function drawSkinLabMarks(){
  const svg=byId("skinLabOverlay"),id=byId("skinLabPhoto")?.value;if(!svg||!id)return;
  const e=state.entries.find(x=>x.id===id);e.skinMarks??=[];
- svg.innerHTML=skinLabCandidates.map(c=>`<circle cx="${c.x*1000}" cy="${c.y*1000}" r="24" fill="#e8c77c" fill-opacity=".12" stroke="#e8c77c" stroke-width="5" stroke-dasharray="8 6"/>`).join("")+e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
+ svg.innerHTML=skinLabCandidates.map(c=>`<circle cx="${c.x*1000}" cy="${c.y*1000}" r="24" fill="#e8c77c" fill-opacity=".12" stroke="#e8c77c" stroke-width="5" stroke-dasharray="8 6" pointer-events="none"/>`).join("")+e.skinMarks.map((m,i)=>'<g class="v2-lab-mark" data-mark="'+i+'"><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="18" fill="'+(labColors[m.type]||"#fff")+'" fill-opacity=".28" stroke="'+(labColors[m.type]||"#fff")+'" stroke-width="5"/><circle cx="'+(m.x*1000)+'" cy="'+(m.y*1000)+'" r="5" fill="'+(labColors[m.type]||"#fff")+'"/></g>').join("");
  const counts={};Object.keys(labTypeNames).forEach(k=>counts[k]=e.skinMarks.filter(m=>m.type===k).length);
  byId("skinLabStats").innerHTML=Object.keys(labTypeNames).map(k=>'<span class="v2-lab-stat"><i style="background:'+labColors[k]+'"></i>'+labTypeNames[k]+': <b>'+counts[k]+'</b></span>').join("");
  svg.onclick=ev=>{
@@ -284,7 +284,7 @@ function scanSkinLab(){
    }
   }
   const boxW=maxX-minX+1,boxH=maxY-minY+1;
-  if(tail>=2&&tail<=Math.max(80,w*h*.002)&&boxW<=Math.max(18,w*.055)&&boxH<=Math.max(18,h*.055)){
+  if(tail>=3&&tail<=Math.max(80,w*h*.002)&&boxW<=Math.max(18,w*.055)&&boxH<=Math.max(18,h*.055)&&found.length<200){
    found.push({x:(sumX/tail)/w,y:(sumY/tail)/h,area:tail});
   }
  }
